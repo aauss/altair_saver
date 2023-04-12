@@ -1,17 +1,16 @@
 import io
 import json
 import os
-from typing import Any, Dict, IO, Iterator, Optional, Tuple
+from typing import IO, Any, Dict, Iterator, Optional, Tuple
 
-from altair_data_server import Provider
-from PIL import Image
 import pytest
 import selenium.webdriver
+from altair_data_server import Provider
+from PIL import Image
 from selenium.webdriver.remote.webdriver import WebDriver
 
 from altair_saver import HTMLSaver
 from altair_saver._utils import internet_connected
-
 
 CDN_URL = "https://cdn.jsdelivr.net"
 
@@ -75,7 +74,9 @@ def test_html_save(
 @pytest.mark.parametrize("embed_options", [None, {"theme": "dark"}])
 @pytest.mark.parametrize("case, data", get_testcases())
 def test_html_mimebundle(
-    case: str, data: Dict[str, Any], embed_options: Optional[dict],
+    case: str,
+    data: Dict[str, Any],
+    embed_options: Optional[dict],
 ) -> None:
     saver = HTMLSaver(data["vega-lite"], embed_options=embed_options)
     bundle = saver.mimebundle("html")
