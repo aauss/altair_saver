@@ -3,9 +3,9 @@ import json
 import shutil
 from typing import Any, Callable, Dict, List, Optional
 
-from altair_saver.types import JSONDict, MimebundleContent
 from altair_saver._utils import check_output_with_stderr
 from altair_saver.savers import Saver
+from altair_saver.types import JSONDict, MimebundleContent
 
 
 class ExecutableNotFound(RuntimeError):
@@ -18,7 +18,7 @@ def npm_bin(global_: bool) -> str:
     npm = shutil.which("npm")
     if not npm:
         raise ExecutableNotFound("npm")
-    cmd = [npm, "bin"]
+    cmd = [npm, "prefix"]
     if global_:
         cmd.append("--global")
     return check_output_with_stderr(cmd).decode().strip()
@@ -38,7 +38,6 @@ def _default_stderr_filter(line: str) -> bool:
 
 
 class NodeSaver(Saver):
-
     valid_formats: Dict[str, List[str]] = {
         "vega": ["pdf", "png", "svg"],
         "vega-lite": ["pdf", "png", "svg", "vega"],
