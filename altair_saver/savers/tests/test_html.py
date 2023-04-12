@@ -118,7 +118,7 @@ def test_html_save_rendering(
     resource = provider.create(content=html, extension="html")
     driver.set_window_size(800, 600)
     driver.get(resource.url)
-    element = driver.find_element_by_class_name("vega-visualization")
+    element = driver.find_element("class_name", "vega-visualization")
 
     png = driver.get_screenshot_as_png()
     im = Image.open(io.BytesIO(png))
@@ -163,7 +163,7 @@ def test_html_mimebundle_rendering(
     resource = provider.create(content=html, extension="html")
     driver.set_window_size(800, 600)
     driver.get(resource.url)
-    element = driver.find_element_by_class_name("vega-visualization")
+    element = driver.find_element("class_name", "vega-visualization")
 
     png = driver.get_screenshot_as_png()
     im = Image.open(io.BytesIO(png))
