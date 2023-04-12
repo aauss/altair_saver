@@ -6,10 +6,10 @@ import tempfile
 from typing import Any
 
 import pytest
-from _pytest.capture import SysCapture
+from _pytest.capture import CaptureFixture
 
-from altair_saver.types import JSONDict
 from altair_saver._utils import (
+    check_output_with_stderr,
     extract_format,
     fmt_to_mimetype,
     infer_mode_from_spec,
@@ -17,8 +17,8 @@ from altair_saver._utils import (
     maybe_open,
     mimetype_to_fmt,
     temporary_filename,
-    check_output_with_stderr,
 )
+from altair_saver.types import JSONDict
 
 
 @pytest.mark.parametrize("connected", [True, False])
@@ -136,7 +136,7 @@ def test_infer_mode_from_spec(mode: str, spec: JSONDict) -> None:
 @pytest.mark.parametrize("cmd_error", [True, False])
 @pytest.mark.parametrize("use_filter", [True, False])
 def test_check_output_with_stderr(
-    capsys: SysCapture, use_filter: bool, cmd_error: bool
+    capsys: CaptureFixture, use_filter: bool, cmd_error: bool
 ) -> None:
     cmd = r'>&2 echo "first error\nsecond error" && echo "the output"'
     stderr_filter = None if not use_filter else lambda line: line.startswith("second")

@@ -1,13 +1,13 @@
 import io
 import json
 import os
-from typing import Any, Dict, IO, Iterator, List, Optional, Tuple
+from typing import IO, Any, Dict, Iterator, List, Optional, Tuple
 
+import pytest
+from _pytest.capture import CaptureFixture
+from _pytest.monkeypatch import MonkeyPatch
 from PIL import Image
 from PyPDF2 import PdfFileReader
-import pytest
-from _pytest.capture import SysCapture
-from _pytest.monkeypatch import MonkeyPatch
 
 from altair_saver import NodeSaver
 from altair_saver._utils import fmt_to_mimetype
@@ -114,7 +114,7 @@ def test_enabled(monkeypatch: MonkeyPatch, enabled: bool) -> None:
 def test_stderr_suppression(
     interactive_spec: JSONDict,
     suppress_warnings: bool,
-    capsys: SysCapture,
+    capsys: CaptureFixture,
 ) -> None:
     message = "WARN Can not resolve event source: window"
 

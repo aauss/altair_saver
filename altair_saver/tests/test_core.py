@@ -1,31 +1,26 @@
 import io
 import json
-from typing import Dict, List, Optional, Union, Type
+from typing import Dict, List, Optional, Type, Union
 
 import altair as alt
 import pandas as pd
 import pytest
-
-from _pytest.capture import SysCapture
+from _pytest.capture import CaptureFixture
 from _pytest.monkeypatch import MonkeyPatch
 
 from altair_saver import (
-    available_formats,
-    save,
-    render,
     BasicSaver,
     HTMLSaver,
     NodeSaver,
     Saver,
     SeleniumSaver,
+    available_formats,
+    render,
+    save,
 )
 from altair_saver._core import _select_saver
+from altair_saver._utils import fmt_to_mimetype, mimetype_to_fmt, temporary_filename
 from altair_saver.types import JSONDict
-from altair_saver._utils import (
-    fmt_to_mimetype,
-    mimetype_to_fmt,
-    temporary_filename,
-)
 
 FORMATS = ["html", "pdf", "png", "svg", "vega", "vega-lite", "json"]
 
@@ -178,7 +173,7 @@ def test_save_chart_data_warning(chart: alt.TopLevelMixin) -> None:
     assert len(record) == 1
     assert (
         record[0]
-        .message.args[0]
+        .message.args[0]  # type: ignore
         .startswith("save() may not function properly with the 'json' data transformer")
     )
 
@@ -265,7 +260,7 @@ def test_embed_options_save_html_override(spec: JSONDict) -> None:
 @pytest.mark.parametrize("vega_cli_options", [None, ["--loglevel", "debug"]])
 def test_save_w_vega_cli_options(
     monkeypatch: MonkeyPatch,
-    capsys: SysCapture,
+    capsys: CaptureFixture,
     chart: alt.TopLevelMixin,
     fmt: str,
     vega_cli_options: Optional[List[str]],
@@ -284,7 +279,7 @@ def test_save_w_vega_cli_options(
 @pytest.mark.parametrize("vega_cli_options", [None, ["--loglevel", "debug"]])
 def test_render_w_vega_cli_options(
     monkeypatch: MonkeyPatch,
-    capsys: SysCapture,
+    capsys: CaptureFixture,
     chart: alt.TopLevelMixin,
     vega_cli_options: Optional[List[str]],
 ) -> None:

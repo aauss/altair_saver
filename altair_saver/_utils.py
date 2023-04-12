@@ -1,12 +1,12 @@
 import contextlib
-from http import client
 import io
 import os
 import socket
 import subprocess
 import sys
 import tempfile
-from typing import Callable, IO, Iterator, List, Optional, Union
+from http import client
+from typing import IO, Callable, Iterator, List, Optional, Union
 
 import altair as alt
 
@@ -171,7 +171,7 @@ def check_output_with_stderr(
     cmd: Union[str, List[str]],
     shell: bool = False,
     input: Optional[bytes] = None,
-    stderr_filter: Callable[[str], bool] = None,
+    stderr_filter: Optional[Callable[[str], bool]] = None,
 ) -> bytes:
     """Run a command in a subprocess, printing stderr to sys.stderr.
 
@@ -211,7 +211,7 @@ def check_output_with_stderr(
         return ps.stdout
     finally:
         s = stderr.decode()
-        if stderr_filter:
+        if stderr_filter is not None:
             s = "\n".join(filter(stderr_filter, s.splitlines()))
         if s:
             if not s.endswith("\n"):
